@@ -1,0 +1,13 @@
+{
+  "name": "sql-bridge-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.22.1",
+    "mssql": "^12.2.0",
+    "nodemon": "^3.1.11"
+  }
+}
