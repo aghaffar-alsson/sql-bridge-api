@@ -21,20 +21,56 @@ app.post('/pending', (req, res) => {
   if (req.headers['x-api-key'] !== API_KEY)
     return res.status(401).send('Unauthorized');
 
-  const { requestId, data } = req.body;
+  const {
+    requestId,
+    data
+  } = req.body;
   resultsCache[requestId] = data;
   pendingRequests = pendingRequests.filter(r => r.requestId !== requestId);
   res.send('ok');
 });
 
+// app.get('/alerts', (req, res) => {
+//   if (req.headers['x-api-key'] !== API_KEY)
+//     return res.status(401).send('Unauthorized');
+
+//   const studentId = req.query.studentId;
+//   const requestId = Date.now().toString();
+
+//   pendingRequests.push({ studentId, requestId });
+
+//   const interval = setInterval(() => {
+//     if (resultsCache[requestId]) {
+//       res.json(resultsCache[requestId]);
+//       delete resultsCache[requestId];
+//       clearInterval(interval);
+//     }
+//   }, 1000);
+// });
+
 app.get('/alerts', (req, res) => {
-  if (req.headers['x-api-key'] !== API_KEY)
-    return res.status(401).send('Unauthorized');
+  // temporarily disable API_KEY for browser test
+  // if (req.headers['x-api-key'] !== API_KEY)
+  //   return res.status(401).send('Unauthorized');
 
   const studentId = req.query.studentId;
+  const tripid = req.query.tripid;
+  const curyear = req.query.curyear;
+
+  if (!studentId || !tripid || !curyear) {
+    return res.status(400).json({
+      error: "Missing parameters"
+    });
+  }
+
   const requestId = Date.now().toString();
 
-  pendingRequests.push({ studentId, requestId });
+  pendingRequests.push({
+    studentId,
+    tripid,
+    curyear,
+    requestId
+  });
 
   const interval = setInterval(() => {
     if (resultsCache[requestId]) {
