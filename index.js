@@ -11,8 +11,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/pending', (req, res) => {
-  if (req.headers['x-api-key'] !== API_KEY)
-    return res.status(401).send('Unauthorized');
+  if (req.headers['x-api-key'] !== API_KEY) return res.status(401).send('Unauthorized');
 
   res.json(pendingRequests);
 });
@@ -121,4 +120,5 @@ app.get('/alerts', (req, res) => {
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server started"));
+
 
